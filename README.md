@@ -2,10 +2,10 @@
 Remove untrusted root CAs from OS X System Roots
 
 ### Status
-Playbook removes specified root certs - Complete
-cert_finder.py - generate list of certs to remove (all certs) - In Progress
-cert_finder.py - whitelist certs to keep
-cert_finder.py - filter based on country
+* Playbook removes specified root certs - Complete
+* cert_finder.py - generate list of certs to remove (all certs) - In Progress
+* cert_finder.py - whitelist certs to keep
+* cert_finder.py - filter based on country
 
 ### Backup existing System Roots
 cp /System/Library/Keychains/SystemRootCertificates.keychain /System/Library/Keychains/SystemRootCertificates.keychain.bak
