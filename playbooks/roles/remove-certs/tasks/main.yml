@@ -2,3 +2,4 @@
   sudo: yes
   command: security delete-certificate -Z {{ item }} /System/Library/Keychains/SystemRootCertificates.keychain
   with_items: certs
+  ignore_errors: yes
