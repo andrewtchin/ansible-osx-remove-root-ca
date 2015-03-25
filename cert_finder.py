@@ -1,3 +1,4 @@
+import pprint
 import shlex
 import StringIO
 import subprocess
@@ -10,23 +11,25 @@ def get_all_certs():
 
 
 def parse_certs(certs):
-    num_certs = 0
     cert_map = dict()
+    sha = None
+    name = None
 
     s = StringIO.StringIO(certs)
     for line in s:
         if line.startswith('SHA-1 hash:'):
             sha = line.split()[-1]
-            print sha
-            num_certs = num_certs + 1
-        else:
-            pass
-    print('Parsed {} certificates.'.format(num_certs))
+        if '"labl"<blob>="' in line:
+            name = line.split('=')[-1].strip('\n"')
+            cert_map[sha] = name
+
+    return cert_map
 
 
 def main():
     certs = get_all_certs()
-    parse_certs(certs)
+    cert_map = parse_certs(certs)
+    pprint.pprint(cert_map)
 
 
 if __name__ == '__main__':
