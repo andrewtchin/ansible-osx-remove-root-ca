@@ -1,0 +1,6 @@
+---
+- name: Remove untrusted root CAs.
+  hosts: localhost
+  connection: local
+  roles:
+    - remove-certs
