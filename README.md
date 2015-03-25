@@ -16,5 +16,6 @@ Add SHA-1 hash of certificate to remove as a variable in playbooks/roles/remove-
 ### Run
 ansible-playbook -vvv playbooks/osx-root-ca.yml --ask-sudo-pass -i "localhost," -c local
 
-### Default trusted root certs
-https://support.apple.com/en-us/HT202858
+### Sources
+* https://support.apple.com/en-us/HT202858 - Default trusted root certs
+* http://www.netcraft.com/internet-data-mining/ssl-survey/
