@@ -26,10 +26,29 @@ def parse_certs(certs):
     return cert_map
 
 
-def get_cert(name):
-    get_cert_cmd = shlex.split('security find-certificate -c {} /System/Library/Keychains/SystemRootCertificates.keychain'.format(name))
+def get_cert(name, pem=False):
+    if pem:
+        get_cert_cmd = shlex.split('security find-certificate -p -c {} /System/Library/Keychains/SystemRootCertificates.keychain'.format(name))
+    else:
+        get_cert_cmd = shlex.split('security find-certificate -c {} /System/Library/Keychains/SystemRootCertificates.keychain'.format(name))
     output = subprocess.check_output(get_cert_cmd)
     return output
+
+
+def pem_to_der(infile_path, outfile_path):
+    convert_cmd = shlex.split('openssl x509 -in {} -out {} -inform PEM -outform DER'.format(infile_path, outfile_path))
+    subprocess.check_call(convert_cmd)
+
+
+def add_cert(cert_path):
+    """Add a certificate to the SystemRootCertificates keychain.
+    Input must be in DER format.
+    Requires root privileges.
+    Args:
+        cert_path: path to input der file
+    """
+    add_cmd = shlex.split('security add-certificates -k /System/Library/Keychains/SystemRootCertificates.keychain {}'.format(cert_path))
+    subprocess.check_call(add_cmd)
 
 
 def get_country(cert):
