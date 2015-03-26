@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+
+"""
+Manage the SystemRootCertificates keychain in OS X.
+"""
+
 import pprint
 import shlex
 import StringIO
@@ -5,12 +11,19 @@ import subprocess
 
 
 def get_all_certs():
+    """Return all certificates in the SystemRootCertificates keychain
+    with SHA-1 of each certificate.
+    """
     all_certs_cmd = shlex.split('security find-certificate -a -Z /System/Library/Keychains/SystemRootCertificates.keychain')
     output = subprocess.check_output(all_certs_cmd)
     return output
 
 
 def parse_certs(certs):
+    """Map name to SHA-1 of each certificate.
+    Args:
+        certs: output from get_all_certs in format from 'security find-certificate'
+    """
     cert_map = dict()
     sha = None
     name = None
@@ -27,6 +40,11 @@ def parse_certs(certs):
 
 
 def get_cert(name, pem=False):
+    """Get the text output from 'security find-certificate' by name.
+    Args:
+        name: certificate name to search for
+        pem: boolean output the cert as PEM format
+    """
     if pem:
         get_cert_cmd = shlex.split('security find-certificate -p -c {} /System/Library/Keychains/SystemRootCertificates.keychain'.format(name))
     else:
@@ -36,6 +54,11 @@ def get_cert(name, pem=False):
 
 
 def pem_to_der(infile_path, outfile_path):
+    """Convert PEM format to DER format.
+    Args:
+        infile_path: path to input PEM file
+        outfile_path: path to output DER file
+    """
     convert_cmd = shlex.split('openssl x509 -in {} -out {} -inform PEM -outform DER'.format(infile_path, outfile_path))
     subprocess.check_call(convert_cmd)
 
