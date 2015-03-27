@@ -5,6 +5,7 @@ Find certificates in SystemRootCertificates keychain in OS X to remove.
 """
 
 import pprint
+import subprocess
 
 import osx_cert_utils
 
