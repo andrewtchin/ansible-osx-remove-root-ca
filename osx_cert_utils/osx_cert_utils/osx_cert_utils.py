@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 """
-Manage the SystemRootCertificates keychain in OS X.
+Utilities to manage the SystemRootCertificates keychain in OS X.
 """
 
-import pprint
 import shlex
 import StringIO
 import subprocess
@@ -19,7 +18,7 @@ def get_all_certs():
     return output
 
 
-def parse_certs(certs):
+def get_cert_name_map(certs):
     """Map name to SHA-1 of each certificate.
     Args:
         certs: output from get_all_certs in format from 'security find-certificate'
@@ -76,29 +75,3 @@ def add_cert(cert_path):
 
 def get_country(cert):
     pass
-
-
-def main():
-    certs = get_all_certs()
-    cert_map = parse_certs(certs)
-    # pprint.pprint(cert_map)
-    error_certs = []
-
-    for cert in cert_map:
-        try:
-            cert = get_cert(cert_map[cert])
-            print cert
-        except subprocess.CalledProcessError as e:
-            if e.returncode == 44:
-                print e.output
-                error_certs.append(cert)
-            else:
-                raise
-
-    print '===== Error count: {} ====='.format(len(error_certs))
-    for cert in error_certs:
-        print cert, cert_map[cert]
-
-
-if __name__ == '__main__':
-    main()
