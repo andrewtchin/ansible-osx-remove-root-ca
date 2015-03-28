@@ -23,7 +23,7 @@ python osx_cert_utils/cert_finder.py --whitelist-apple --whitelist-qualys --outf
 ### Run
 
 ```
-ansible-playbook -vvv playbooks/osx-root-ca.yml --ask-sudo-pass -i "localhost," -c local
+ansible-playbook -vvv playbooks/osx-remove-root-ca.yml --ask-sudo-pass -i "localhost," -c local
 ```
 
 ### Sources
