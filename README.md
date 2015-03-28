@@ -15,7 +15,7 @@ Add SHA-1 hash of certificate to remove as a variable in playbooks/roles/remove-
 
 See https://github.com/andrewtchin/osx-cert-utils
 
-Included vars file was generated with:
+Included default vars file was generated with:
 ```
 python osx_cert_utils/cert_finder.py --whitelist-apple --whitelist-qualys --outfile main.yml --ansible-vars
 ```
